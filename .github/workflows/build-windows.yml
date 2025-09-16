@@ -1,0 +1,82 @@
+name: Build Windows Executable
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+        
+    - name: Build executable
+      run: |
+        pyinstaller --onefile --windowed --name "DSL-Auto-Fill-Bot" main.py
+        
+    - name: Create release package
+      run: |
+        mkdir release
+        copy dist\DSL-Auto-Fill-Bot.exe release\
+        copy setup_folders.bat release\
+        copy setup_folders.sh release\
+        copy requirements.txt release\
+        echo "# DSL Auto Fill Bot - Windows Release" > release\README.txt
+        echo "" >> release\README.txt
+        echo "1. รัน setup_folders.bat เพื่อสร้างโฟลเดอร์" >> release\README.txt
+        echo "2. รัน DSL-Auto-Fill-Bot.exe" >> release\README.txt
+        echo "3. เพิ่มบัญชีผู้ใช้ในเมนูจัดการผู้ใช้" >> release\README.txt
+        echo "4. วางไฟล์ PDF ใน files/disbursement/ หรือ files/sign-contract/" >> release\README.txt
+        echo "5. เลือกฟีเจอร์และเริ่มใช้งาน" >> release\README.txt
+        
+    - name: Create ZIP archive
+      run: |
+        powershell Compress-Archive -Path release\* -DestinationPath DSL-Auto-Fill-Bot-Windows-v${{ github.ref_name }}.zip
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: DSL-Auto-Fill-Bot-Windows
+        path: DSL-Auto-Fill-Bot-Windows-v${{ github.ref_name }}.zip
+        
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: DSL-Auto-Fill-Bot-Windows-v${{ github.ref_name }}.zip
+        body: |
+          ## DSL Auto Fill Bot - Windows Release
+          
+          ### การติดตั้ง:
+          1. ดาวน์โหลดไฟล์ ZIP
+          2. แตกไฟล์
+          3. รัน `setup_folders.bat`
+          4. รัน `DSL-Auto-Fill-Bot.exe`
+          
+          ### คุณสมบัติ:
+          - ลงนามสัญญากู้ยืมเงิน
+          - ลงนามแบบยืนยันการเบิกเงินกู้ยืม
+          - ระบบจัดการผู้ใช้หลายบัญชี
+          - ประมวลผลไฟล์แบบ batch
+          
+          ### ความต้องการระบบ:
+          - Windows 10+
+          - Google Chrome
+          - การเชื่อมต่ออินเทอร์เน็ต
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
