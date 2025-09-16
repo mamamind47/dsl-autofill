@@ -19,7 +19,7 @@
 
 ### 1. ดาวน์โหลดโปรแกรม
 ```bash
-git clone https://github.com/mamamind47/sfa-dsl-autofill.git
+git clone https://github.com/mamamind47/dsl-autofill.git
 cd sfa-dsl-autofill
 ```
 
