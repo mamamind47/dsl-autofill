@@ -49,7 +49,7 @@ jobs:
         powershell Compress-Archive -Path release\* -DestinationPath DSL-Auto-Fill-Bot-Windows-v${{ github.ref_name }}.zip
         
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: DSL-Auto-Fill-Bot-Windows
         path: DSL-Auto-Fill-Bot-Windows-v${{ github.ref_name }}.zip
