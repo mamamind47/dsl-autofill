@@ -34,8 +34,6 @@ jobs:
         mkdir release
         copy dist\DSL-Auto-Fill-Bot.exe release\
         copy setup_folders.bat release\
-        copy setup_folders.sh release\
-        copy requirements.txt release\
         echo "# DSL Auto Fill Bot - Windows Release" > release\README.txt
         echo "" >> release\README.txt
         echo "1. รัน setup_folders.bat เพื่อสร้างโฟลเดอร์" >> release\README.txt
