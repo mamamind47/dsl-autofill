@@ -1,0 +1,39 @@
+# User accounts และ credentials
+accounts/
+users.json
+
+# Log files
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+env/
+.env
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Input/Output folders (user data)
+files/
+completed/
+failed/
+
+# Temporary files
+*.tmp
+*.temp
+CLAUDE.md
+INSTALL.md
+CHROME_DEBUG.md
