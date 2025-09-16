@@ -20,7 +20,7 @@
 ### 1. ดาวน์โหลดโปรแกรม
 ```bash
 git clone https://github.com/mamamind47/dsl-autofill.git
-cd sfa-dsl-autofill
+cd dsl-autofill
 ```
 
 ### 2. ติดตั้ง Dependencies
